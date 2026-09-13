@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title> dotcomAI Docs - Installing Dotcom EDI Harness</title>
+
+<meta name="description" content="A step-by-step guide to running the Dotcom EDI Harness Web UI from source.">
+<meta name="author" content="Manuja Damsara">
+<meta name="theme-color" content="#00c853">
+
+<!-- Local favicon -->
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --green: #00c853;
+    --green-soft: #00e676;
+    --green-dim: rgba(0, 200, 83, 0.10);
+    --green-line: rgba(0, 200, 83, 0.28);
+    --bg: #000000;
+    --bg-2: #0a0a0a;
+    --bg-3: #111214;
+    --border: rgba(255, 255, 255, 0.07);
+    --border-strong: rgba(255, 255, 255, 0.12);
+    --text: #e8eaed;
+    --text-dim: #9aa0a6;
+    --text-dimmer: #6b7280;
+    --nav-h: 60px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  body.no-scroll { overflow: hidden; }
+
+  .mono { font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+  /* ============================================================
+     TOP NAV
+     ============================================================ */
+  .topnav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: var(--nav-h);
+    background: rgba(6, 6, 6, 0.85);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .topnav-inner {
+    height: 100%;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .docs-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+    flex-shrink: 0;
+    letter-spacing: -0.01em;
+  }
+  .docs-brand img {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 6px rgba(255,255,255,0.12));
+  }
+  .docs-brand .tag {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 100px;
+    background: var(--green-dim);
+    border: 1px solid var(--green-line);
+    color: var(--green-soft);
+    margin-left: 2px;
+  }
+
+  .search-wrap {
+    position: relative;
+    width: 260px;
+    margin-left: 10px;
+  }
+  .search-wrap i.fa-magnifying-glass {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-dimmer);
+    font-size: 0.8rem;
+    pointer-events: none;
+  }
+  .search-wrap input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.85rem;
+    padding: 8px 12px 8px 34px;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .search-wrap input::placeholder { color: var(--text-dimmer); }
+  .search-wrap input:focus {
+    border-color: var(--green-line);
+    background: rgba(255, 255, 255, 0.05);
+  }
+  .search-wrap .kbd {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-dimmer);
+    padding: 2px 6px;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.03);
+  }
+
+  .topnav-spacer { flex: 1; }
+
+  .topnav-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .topnav-links a,
+  .topnav-links button.linkbtn {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: color 0.2s, background 0.2s;
+    background: transparent;
+    border: none;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .topnav-links a:hover,
+  .topnav-links button.linkbtn:hover { color: #fff; background: rgba(255,255,255,0.05); }
+  .topnav-links a.active { color: var(--green-soft); }
+  .topnav-links button.linkbtn.contact { color: var(--green-soft); }
+  .topnav-links button.linkbtn.contact:hover { background: var(--green-dim); color: var(--green-soft); }
+
+  .icon-btn {
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: all 0.2s;
+    margin-left: 6px;
+  }
+  .icon-btn:hover {
+    color: #fff;
+    border-color: var(--green-line);
+    background: rgba(255,255,255,0.07);
+  }
+
+  .menu-toggle {
+    display: none;
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    color: #fff;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+  }
+
+  /* ============================================================
+     LAYOUT
+     ============================================================ */
+  .layout {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr) 220px;
+    gap: 40px;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 0 24px;
+    align-items: start;
+  }
+
+  /* ============================================================
+     LEFT SIDEBAR
+     ============================================================ */
+  .sidebar {
+    position: sticky;
+    top: var(--nav-h);
+    max-height: calc(100vh - var(--nav-h));
+    overflow-y: auto;
+    padding: 28px 12px 60px 0;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0,200,83,0.2) transparent;
+  }
+  .sidebar::-webkit-scrollbar { width: 6px; }
+  .sidebar::-webkit-scrollbar-thumb {
+    background: rgba(0,200,83,0.2);
+    border-radius: 3px;
+  }
+
+  .side-section { margin-bottom: 22px; }
+  .side-section h4 {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #fff;
+    padding: 0 12px;
+    margin-bottom: 6px;
+  }
+  .side-section a {
+    display: block;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.85rem;
+    padding: 5px 12px;
+    border-radius: 7px;
+    transition: color 0.2s, background 0.2s;
+    border-left: 2px solid transparent;
+    cursor: pointer;
+  }
+  .side-section a:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.04);
+  }
+  .side-section a.active {
+    color: var(--green-soft);
+    background: var(--green-dim);
+    border-left-color: var(--green);
+    font-weight: 600;
+  }
+
+  /* ============================================================
+     MAIN CONTENT
+     ============================================================ */
+  .content {
+    padding: 40px 0 100px;
+    min-width: 0;
+    max-width: 720px;
+  }
+
+  .content h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: #fff;
+    margin-bottom: 20px;
+    line-height: 1.15;
+    scroll-margin-top: calc(var(--nav-h) + 16px);
+  }
+
+  .content h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: #fff;
+    margin: 44px 0 16px;
+    padding-top: 12px;
+    scroll-margin-top: calc(var(--nav-h) + 16px);
+  }
+
+  .content h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 28px 0 10px;
+  }
+
+  .content p {
+    color: #b8bdc4;
+    font-size: 0.94rem;
+    margin-bottom: 14px;
+    line-height: 1.75;
+  }
+
+  .content a {
+    color: var(--green-soft);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(0,230,118,0.25);
+    transition: border-color 0.2s;
+  }
+  .content a:hover { border-bottom-color: var(--green-soft); }
+
+  .content strong { color: #fff; font-weight: 600; }
+
+  .content ul, .content ol {
+    color: #b8bdc4;
+    font-size: 0.94rem;
+    margin: 6px 0 16px 22px;
+    line-height: 1.75;
+  }
+  .content li { margin-bottom: 6px; }
+
+  .content hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 32px 0;
+  }
+
+  .note {
+    background: rgba(0,200,83,0.06);
+    border-left: 3px solid var(--green);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 20px 0;
+    font-size: 0.9rem;
+    color: #b8bdc4;
+  }
+  .note strong { color: var(--green-soft); }
+
+  .content code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.84em;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 1px 6px;
+    color: #d5d9de;
+    word-break: break-word;
+  }
+
+  .codeblock {
+    position: relative;
+    background: #060606;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin: 14px 0 20px;
+    overflow: hidden;
+  }
+  .codeblock pre {
+    margin: 0;
+    padding: 16px 18px;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    color: #d5d9de;
+  }
+  .codeblock pre::-webkit-scrollbar { height: 6px; }
+  .codeblock pre::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.1);
+    border-radius: 3px;
+  }
+  .codeblock .copy {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 0.7rem;
+    padding: 5px 10px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    color: var(--text-dimmer);
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .codeblock .copy:hover {
+    color: var(--green-soft);
+    border-color: var(--green-line);
+  }
+
+  .content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0 22px;
+    font-size: 0.87rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .content thead { background: rgba(255,255,255,0.02); }
+  .content th {
+    text-align: left;
+    font-weight: 600;
+    color: #fff;
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.82rem;
+    letter-spacing: 0.01em;
+  }
+  .content td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--border);
+    color: #b8bdc4;
+    vertical-align: top;
+  }
+  .content tbody tr:last-child td { border-bottom: none; }
+  .content tbody tr:hover { background: rgba(255,255,255,0.015); }
+
+  /* ============================================================
+     RIGHT RAIL
+     ============================================================ */
+  .rail {
+    position: sticky;
+    top: var(--nav-h);
+    max-height: calc(100vh - var(--nav-h));
+    overflow-y: auto;
+    padding: 44px 0 60px;
+    scrollbar-width: thin;
+  }
+  .rail::-webkit-scrollbar { width: 6px; }
+  .rail::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.08);
+    border-radius: 3px;
+  }
+  .rail h4 {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #fff;
+    margin-bottom: 12px;
+  }
+  .rail a {
+    display: block;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.82rem;
+    padding: 4px 0 4px 12px;
+    border-left: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+    line-height: 1.4;
+    cursor: pointer;
+  }
+  .rail a:hover { color: #fff; }
+  .rail a.active {
+    color: var(--green-soft);
+    border-left-color: var(--green);
+    font-weight: 500;
+  }
+
+  /* ============================================================
+     FOOTER
+     ============================================================ */
+  .docs-footer {
+    border-top: 1px solid var(--border);
+    padding: 24px;
+    text-align: center;
+    color: var(--text-dimmer);
+    font-size: 0.8rem;
+  }
+  .docs-footer a, .docs-footer button.linkbtn {
+    color: var(--text-dim);
+    text-decoration: none;
+    margin: 0 10px;
+    transition: color 0.2s;
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: 0.8rem;
+    cursor: pointer;
+    padding: 0;
+  }
+  .docs-footer a:hover, .docs-footer button.linkbtn:hover { color: var(--green-soft); }
+
+  /* ============================================================
+     CONTACT MODAL
+     ============================================================ */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s, visibility 0.25s;
+  }
+  .modal-backdrop.open { opacity: 1; visibility: visible; }
+
+  .modal {
+    background: #0d0d0d;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 560px;
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.9), 0 0 0 1px rgba(0,200,83,0.08);
+    transform: scale(0.96);
+    transition: transform 0.25s;
+    overflow: hidden;
+  }
+  .modal-backdrop.open .modal { transform: scale(1); }
+
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,0.015);
+    flex-shrink: 0;
+  }
+  .modal-header h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.015em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .modal-header h2 i { color: var(--green); font-size: 1rem; }
+
+  .modal-close {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .modal-close:hover {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    border-color: var(--green-line);
+  }
+
+  .modal-body {
+    padding: 22px 24px 26px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+  .modal-body::-webkit-scrollbar { width: 8px; }
+  .modal-body::-webkit-scrollbar-thumb {
+    background: rgba(0,200,83,0.25);
+    border-radius: 4px;
+  }
+
+  .modal-body p {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    margin-bottom: 18px;
+    line-height: 1.65;
+  }
+  .modal-body p strong { color: #fff; }
+
+  .form-group { margin-bottom: 14px; }
+  .form-group label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 6px;
+    letter-spacing: 0.01em;
+  }
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    background: rgba(255,255,255,0.035);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.88rem;
+    padding: 10px 12px;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    resize: vertical;
+  }
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color: var(--text-dimmer); }
+  .form-group input:focus,
+  .form-group textarea:focus {
+    border-color: var(--green-line);
+    background: rgba(255,255,255,0.055);
+  }
+  .form-group textarea { min-height: 110px; line-height: 1.55; }
+
+  .form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    flex: 1;
+    min-width: 160px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 18px;
+    border-radius: 100px;
+    background: var(--green);
+    color: #000;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    box-shadow: 0 8px 24px rgba(0,200,83,0.25);
+  }
+  .btn-primary:hover {
+    background: var(--green-soft);
+    transform: translateY(-1px);
+    box-shadow: 0 12px 32px rgba(0,230,118,0.35);
+  }
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 18px;
+    border-radius: 100px;
+    background: transparent;
+    color: #fff;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+  .btn-ghost:hover {
+    border-color: var(--green-line);
+    color: var(--green-soft);
+    background: var(--green-dim);
+  }
+
+  .modal-note {
+    font-size: 0.78rem;
+    color: var(--text-dimmer);
+    margin-top: 14px;
+    line-height: 1.55;
+  }
+  .modal-note a {
+    color: var(--green-soft);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(0,230,118,0.25);
+  }
+
+  .contact-email-line {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: rgba(0,200,83,0.06);
+    border: 1px solid var(--green-line);
+    margin-bottom: 16px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .contact-email-line i { color: var(--green); }
+
+  /* ============================================================
+     RESPONSIVE
+     ============================================================ */
+  @media (max-width: 1200px) {
+    .layout { grid-template-columns: 240px minmax(0, 1fr); }
+    .rail { display: none; }
+  }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; padding: 0 18px; gap: 0; }
+    .sidebar {
+      position: fixed;
+      top: var(--nav-h);
+      left: 0;
+      bottom: 0;
+      width: 280px;
+      max-width: 85vw;
+      max-height: calc(100vh - var(--nav-h));
+      background: #060606;
+      border-right: 1px solid var(--border);
+      padding: 20px 12px 40px;
+      transform: translateX(-100%);
+      transition: transform 0.28s cubic-bezier(0.22,1,0.36,1);
+      z-index: 90;
+      box-shadow: 12px 0 40px rgba(0,0,0,0.6);
+    }
+    .sidebar.open { transform: translateX(0); }
+    .menu-toggle { display: inline-flex; }
+    .search-wrap { width: 180px; margin-left: 0; }
+    .topnav-links { display: none; }
+    .topnav-links.mobile-open {
+      display: flex;
+      position: absolute;
+      top: var(--nav-h);
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 2px;
+      padding: 12px;
+      background: #0a0a0a;
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.7);
+    }
+    .topnav-links.mobile-open a,
+    .topnav-links.mobile-open button.linkbtn {
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      text-align: left;
+    }
+
+    .sidebar-backdrop {
+      position: fixed;
+      inset: var(--nav-h) 0 0 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(3px);
+      z-index: 80;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s, visibility 0.25s;
+    }
+    .sidebar-backdrop.open { opacity: 1; visibility: visible; }
+
+    .content { padding: 30px 0 80px; }
+  }
+
+  @media (max-width: 640px) {
+    .topnav-inner { padding: 0 14px; gap: 12px; }
+    .search-wrap { display: none; }
+    .docs-brand .tag { display: none; }
+    .content h1 { font-size: 1.6rem; }
+    .content h2 { font-size: 1.15rem; margin-top: 34px; }
+    .content table { font-size: 0.8rem; }
+    .content th, .content td { padding: 8px 10px; }
+    .codeblock pre { padding: 14px; font-size: 0.76rem; }
+    .modal-backdrop { padding: 12px; }
+    .modal-header { padding: 16px 18px; }
+    .modal-body { padding: 18px 18px 22px; }
+    .docs-footer { padding: 20px 14px; font-size: 0.76rem; }
+    .docs-footer a, .docs-footer button.linkbtn { margin: 0 6px; }
+  }
+
+  @media (max-width: 380px) {
+    .content h1 { font-size: 1.4rem; }
+    .content h2 { font-size: 1.05rem; }
+    .btn-primary, .btn-ghost { min-width: 100%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     TOP NAV
+     ============================================================ -->
+<header class="topnav">
+  <div class="topnav-inner">
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <a href="#top" class="docs-brand">
+      <img src="logo.png" alt="dotcomAI" onerror="this.style.display='none'">
+      <span>dotcomAI</span>
+      <span class="tag">Docs</span>
+    </a>
+
+    <div class="search-wrap">
+      <i class="fas fa-magnifying-glass"></i>
+      <input type="text" placeholder="Search" id="searchInput" aria-label="Search docs">
+      <span class="kbd">Ctrl K</span>
+    </div>
+
+    <div class="topnav-spacer"></div>
+
+    <nav class="topnav-links" id="topnavLinks" aria-label="Docs sections">
+      <a href="#top" class="active">Guide</a>
+      <a href="#modes">Development</a>
+      <button type="button" class="linkbtn contact" onclick="openContact()">Contact</button>
+    </nav>
+
+    <a href="https://github.com/dotcom-edi/dotcom-edi-harness" target="_blank" rel="noopener" class="icon-btn" aria-label="GitHub">
+      <i class="fab fa-github"></i>
+    </a>
+  </div>
+</header>
+
+<!-- Backdrop for mobile sidebar -->
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+<!-- ============================================================
+     LAYOUT
+     ============================================================ -->
+<div class="layout">
+
+  <!-- ============ LEFT SIDEBAR ============ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="side-section">
+      <h4>Guide</h4>
+      <a href="#top" class="active">Installation overview</a>
+      <a href="#requirements">Requirements</a>
+      <a href="#step1">Get the source</a>
+      <a href="#step2">Install pnpm</a>
+      <a href="#step3">Compiler toolchain</a>
+      <a href="#step4">Install dependencies</a>
+      <a href="#step5">Build</a>
+      <a href="#step6">Start the Web UI</a>
+      <a href="#step7">First-run setup</a>
+    </div>
+
+    <div class="side-section">
+      <h4>Other modes</h4>
+      <a href="#modes">Entry modes</a>
+      <a href="#config">Configuration</a>
+      <a href="#stop">Stopping &amp; restarting</a>
+    </div>
+
+    <div class="side-section">
+      <h4>Support</h4>
+      <a href="#troubleshooting">Troubleshooting</a>
+      <a href="#quickstart">Quickstart</a>
+      <a href="#npm">Install from npm</a>
+    </div>
+
+    <div class="side-section">
+      <h4>Get in touch</h4>
+      <a onclick="openContact()"><i class="far fa-envelope" style="margin-right:8px;color:var(--green)"></i>Contact support</a>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN CONTENT ============ -->
+  <main class="content">
+
+    <h1 id="top">Installing Dotcom EDI Harness</h1>
+
+    <p>A step-by-step guide to running the Dotcom EDI Harness Web UI from source.</p>
+
+    <div class="note">
+      <strong>Draft note — delete this block before publishing.</strong>
+      <p style="margin:10px 0 0;color:#b8bdc4;font-size:0.88rem;">
+        Three values below depend on naming that is not final:
+      </p>
+      <ol style="margin:8px 0 0 20px;font-size:0.88rem;">
+        <li>The <strong>repository URL</strong> must match your real GitHub organisation and repository name.</li>
+        <li>The <strong><code>npx</code> one-liner</strong> in <em>Install from npm</em> only works after the packages are published to your npm scope. Until then, the source instructions are the only working path.</li>
+        <li>Confirm the <strong>CLI name</strong> (<code>dce</code>) and <strong>product name</strong> (<em>Dotcom EDI Harness</em>) match your public naming.</li>
+      </ol>
+    </div>
+
+    <hr>
+
+    <h2 id="requirements">Requirements</h2>
+
+    <table>
+      <thead>
+        <tr><th>Requirement</th><th>Value</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Operating system</td>
+          <td>macOS, Linux, or <strong>WSL on Windows</strong></td>
+          <td>Native components build only on macOS and Linux. Plain Windows is not supported.</td>
+        </tr>
+        <tr>
+          <td>Node.js</td>
+          <td><code>^22.19.0</code> or <code>&gt;=24.0.0</code></td>
+          <td><strong>Node 23 is not supported.</strong></td>
+        </tr>
+        <tr>
+          <td>pnpm</td>
+          <td><code>11.7.0</code></td>
+          <td>Pinned by the <code>packageManager</code> field.</td>
+        </tr>
+        <tr>
+          <td>C compiler</td>
+          <td>macOS: Xcode Command Line Tools<br>Linux / WSL: <code>build-essential</code> <strong>and</strong> <code>musl-tools</code></td>
+          <td>Linux needs <code>musl-gcc</code> to build the static sandbox helper.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Check what you already have:</p>
+
+    <div class="codeblock">
+      <pre><code>node -vpnpm -v</code></pre>
+      <button class="copy" data-copy="node -v
+pnpm -v"><i class="far fa-copy"></i> Copy</button>
+    </div>
+
+    <h2 id="step1">Step 1 — Get the source</h2>
+
+    <div class="codeblock">
+      <pre><code>git clone https://github.com/dotcom-edi/dotcom-edi-harness.git
+cd dotcom-edi-harness</code></pre>
+      <button class="copy" data-copy="git clone https://github.com/dotcom-edi/dotcom-edi-harness.git
+cd dotcom-edi-harness"><i class="far fa-copy"></i> Copy</button>
+    </div>
+
+    <p>The checkout <strong>must include its <code>.git</code> directory</strong>. The build stamps the browser bundle with the source commit hash, so a directory without Git metadata cannot be built. This is why cloning is preferred over downloading an archive.</p>
+
+    <h2 id="step2">Step 2 — Install pnpm</h2>
+
+    <div class="codeblock">
+      <pre><code>npm install -g pnpm@11.7.0
+pnpm -v          # expect 11.7.0</code></pre>
+      <button class="copy" data-copy="npm install -g pnpm@11.7.0
+pnpm -v"><i class="far fa-copy"></i> Copy</button>
+    </div>
+
+    <h2 id="step3">Step 3 — Install the compiler toolchain</h2>
+
+    <div class="codeblock">
+      <pre><code># macOS
+xcode-select --install</code></pre>
+      <button class="copy" data-copy="xcode-select --install"><i class="far fa-copy"></i> Copy</button>
+    </div>
+
+    <div class="codeblock">
+      <pre><code># Linux / WSL (Debian, Ubuntu)
+sudo apt update &amp;&amp; sudo apt install -y build-essential musl-tools</code></pre>
+      <button class="copy" data-copy="sudo apt update && sudo apt install -y build-essential musl-tools"><i class="far fa-copy"></i> Copy</button>
+    </div>
+
+    <h2 id="step4">Step 4 — Install dependencies</h2>
+
+    <div class="codeblock">
+      <pre><code>pnpm install</code></pre>
+      <button class="copy" data-copy="pnpm install"><i class="far fa-copy"></i> Copy</button>
+    </div>
+
+    <p>On a slow or unstable connection, extend the fetch timeouts and lower concurrency:</p>
+
+    <div class="codeblock">
+      <pre><code>pnpm install --network-concurrency=4 --fetch-timeout=600000 --fetch-retries=5</code></pre>
+      <button class="copy" data-copy="pnpm install --network-concurrency=4 --fetch-timeout=600000 --fetch-retries=5"><i class="far fa-copy"></i> Copy</button>
+    </div>
+
+    <p>Warnings about <code>Unsupported platform: wanted arm64</code> and <code>deprecated subdependencies</code> are expected — they refer to optional packages for other platforms.</p>
+
+    <h2 id="step5">Step 5 — Build</h2>
+
+    <div class="codeblock">
+      <pre><code>pnpm run build</code></pre>
+      <button class="copy" data-copy="pnpm run build"><i class="far fa-copy"></i> Copy</button>
+    </div>
+
+    <p>This compiles the native helpers, the TypeScript libraries, and the client bundles the Web UI is served from. It takes several minutes.</p>
+
+    <p><strong>The build is mandatory before the first launch.</strong> A successful build ends with:</p>
+
+    <div class="codeblock">
+      <pre><code>build: recorded &lt;number&gt; client artifact(s) with &lt;number&gt; public value(s)</code></pre>
+    </div>
+
+    <p>Confirm the client bundles exist:</p>
+
+    <div class="codeblock">
+      <pre><code>ls packages/client/ui-chat/lib/client.js</code></pre>
+      <button class="copy" data-copy="ls packages/client/ui-chat/lib/client.js"><i class="far fa-copy"></i> Copy</button>
+    </div>
+
+    <p>If that reports <code>No such file or directory</code>, the build did not complete — re-run it before continuing.</p>
+
+    <h2 id="step6">Step 6 — Start the Web UI</h2>
+
+    <div class="codeblock">
+      <pre><code>pnpm dce web</code></pre>
+      <button class="copy" data-copy="pnpm dce web"><i class="far fa-copy"></i> Copy</button>
+    </div>
+
+    <p>The Web UI opens at <strong>http://127.0.0.1:3080</strong> by default.</p>
+
+    <h3>Options</h3>
+
+    <table>
+      <thead><tr><th>Flag</th><th>Effect</th></tr></thead>
+      <tbody>
+        <tr><td><code>--no-open</code></td><td>Do not open a browser (use on a remote or SSH session)</td></tr>
+        <tr><td><code>--port &lt;port&gt;</code></td><td>Listen on another port. <code>--port 0</code> lets the OS pick a free one</td></tr>
+        <tr><td><code>--host &lt;host&gt;</code></td><td>Bind host. <code>0.0.0.0</code> is deliberately rejected for safety</td></tr>
+        <tr><td><code>--trusted-host &lt;authority&gt;</code></td><td>Extra authority the browser-trust fence accepts (repeatable)</td></tr>
+        <tr><td><code>--help</code></td><td>Show the Web app's own flags</td></tr>
+      </tbody>
+    </table>
+
+    <p>An SSH launch prints the host URL instead of opening a browser, because the SSH client or editor owns the forwarded address.</p>
+
+    <h2 id="step7">Step 7 — First-run setup</h2>
+
+    <ol>
+      <li>Open <strong>Settings → Models</strong>, enter your provider API key, and save. The model route becomes usable immediately, with no restart.</li>
+      <li>Choose <strong>Choose workspace</strong> and select the project directory the agent should work in. The session composer stays unavailable until a workspace is selected.</li>
+      <li>Start a session and send a task.</li>
+    </ol>
+
+    <h2 id="modes">Other entry modes</h2>
+
+    <p><code>Web</code> is one profile among several. The launcher selects a profile with <code>--profile</code>, and <code>dce web</code> is an alias for <code>--profile web</code>.</p>
+
+    <table>
+      <thead><tr><th>Command</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td><code>dce web</code></td><td>Serve the browser UI (alias of <code>--profile web</code>)</td></tr>
+        <tr><td><code>dce --profile headless "job"</code></td><td>Run one session, print the final answer, and exit</td></tr>
+        <tr><td><code>dce --profile sdk</code></td><td>Serve SDK clients over JSON-RPC stdio</td></tr>
+        <tr><td><code>dce --profile sdk-minimal</code></td><td>Serve SDK clients with the standalone minimal agent tree</td></tr>
+        <tr><td><code>dce --profile acp</code></td><td>Serve automation clients over ACP stdio</td></tr>
+        <tr><td><code>dce --profile &lt;name&gt;</code></td><td>Boot a profile under <code>$DCE_HOME/profiles/&lt;name&gt;</code></td></tr>
+        <tr><td><code>dce plugin --profile &lt;name&gt; &lt;pnpm args&gt;</code></td><td>Manage a profile's plugins</td></tr>
+      </tbody>
+    </table>
+
+    <p><code>web</code>, <code>headless</code>, <code>sdk</code>, <code>sdk-minimal</code>, and <code>acp</code> initialise themselves on first use. The invoking directory is the default workspace root.</p>
+
+    <h2 id="config">Configuration</h2>
+
+    <table>
+      <thead><tr><th>Path</th><th>Contents</th></tr></thead>
+      <tbody>
+        <tr><td><code>~/.dce/config.yaml</code></td><td>Harness configuration</td></tr>
+        <tr><td><code>~/.dce/.credentials.yaml</code></td><td>Stored credentials</td></tr>
+        <tr><td><code>~/.dce/profiles/</code></td><td>Boot profiles</td></tr>
+      </tbody>
+    </table>
+
+    <p>Set <code>DCE_HOME</code> to relocate all of the above.</p>
+
+    <h2 id="stop">Stopping and restarting</h2>
+
+    <p>Stop the server with <code>Ctrl + C</code>.</p>
+    <p>To start it again, no rebuild is required:</p>
+
+    <div class="codeblock">
+      <pre><code>cd dotcom-edi-harness
+pnpm dce web</code></pre>
+      <button class="copy" data-copy="cd dotcom-edi-harness
+pnpm dce web"><i class="far fa-copy"></i> Copy</button>
+    </div>
+
+    <p>Re-run <code>pnpm run build</code> only after changing source code.</p>
+
+    <h2 id="troubleshooting">Troubleshooting</h2>
+
+    <table>
+      <thead><tr><th>Symptom</th><th>Cause and fix</th></tr></thead>
+      <tbody>
+        <tr><td><code>client bundles not found</code> at launch</td><td>The build did not complete. Run <code>pnpm run build</code> and wait for the <code>build: recorded …</code> line</td></tr>
+        <tr><td><code>Command failed: git rev-parse HEAD</code></td><td>The checkout has no <code>.git</code> directory. Re-clone it, or set <code>DCE_CLIENT_COMMIT_HASH</code> to any 7–40 character hex value</td></tr>
+        <tr><td><code>musl-gcc: not found</code></td><td><code>sudo apt install musl-tools</code></td></tr>
+        <tr><td><code>Unsupported engine</code></td><td>The Node version is outside <code>^22.19.0 || &gt;=24.0.0</code></td></tr>
+        <tr><td><code>build: system binaries are built on Linux or macOS</code></td><td>Running on plain Windows. Use WSL</td></tr>
+        <tr><td><code>ERR_PNPM_OUTDATED_LOCKFILE</code></td><td>Run <code>pnpm install --no-frozen-lockfile</code></td></tr>
+        <tr><td>Port 3080 already in use</td><td><code>pnpm dce web --port 3081</code></td></tr>
+        <tr><td>Build stops with an error</td><td>Re-run <code>pnpm run build</code>; build outputs are disposable and regenerated</td></tr>
+        <tr><td>An updated UI does not appear</td><td>Hard-refresh the browser (<code>Cmd + Shift + R</code>). Tabs, titles and favicons are cached aggressively</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="quickstart">Quickstart</h2>
+
+    <p>Once the requirements are met, the whole sequence is:</p>
+
+    <div class="codeblock">
+      <pre><code>git clone https://github.com/dotcom-edi/dotcom-edi-harness.git
+cd dotcom-edi-harness
+pnpm install
+pnpm run build
+pnpm dce web</code></pre>
+      <button class="copy" data-copy="git clone https://github.com/dotcom-edi/dotcom-edi-harness.git
+cd dotcom-edi-harness
+pnpm install
+pnpm run build
+pnpm dce web"><i class="far fa-copy"></i> Copy</button>
+    </div>
+
+    <h2 id="npm">Install from npm</h2>
+
+    <p>Not yet available. The npm packages are prepared under the project scope but have not been published, so <code>npx</code> will not resolve them. Publishing is a separate step covering the full package family.</p>
+
+    <hr>
+
+    <h2 id="contact-section">Need help?</h2>
+    <p>If you get stuck on any step, send us a message and we'll get back to you.</p>
+    <div class="form-actions" style="max-width:340px;">
+      <button type="button" class="btn-primary" onclick="openContact()">
+        <i class="far fa-envelope"></i> Contact support
+      </button>
+    </div>
+
+  </main>
+
+  <!-- ============ RIGHT RAIL ============ -->
+  <aside class="rail">
+    <h4>On this page</h4>
+    <a href="#requirements">Requirements</a>
+    <a href="#step1">Get the source</a>
+    <a href="#step2">Install pnpm</a>
+    <a href="#step3">Compiler toolchain</a>
+    <a href="#step4">Install dependencies</a>
+    <a href="#step5">Build</a>
+    <a href="#step6">Start the Web UI</a>
+    <a href="#step7">First-run setup</a>
+    <a href="#modes">Other entry modes</a>
+    <a href="#config">Configuration</a>
+    <a href="#stop">Stopping &amp; restarting</a>
+    <a href="#troubleshooting">Troubleshooting</a>
+    <a href="#quickstart">Quickstart</a>
+    <a href="#npm">Install from npm</a>
+    <a href="#contact-section">Need help?</a>
+  </aside>
+
+</div>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="docs-footer">
+  <a href="https://home.dotcomai.site">Home</a>
+  <a href="https://dotcomai.site">Chat</a>
+  <button type="button" class="linkbtn" onclick="openContact()">Contact</button>
+  <a href="#top">Top</a>
+  <span style="margin: 0 10px;">·</span>
+  © 2026 All Rights Reserved · dotcomAI EDI Harness
+</footer>
+
+<!-- ============================================================
+     CONTACT MODAL
+     ============================================================ -->
+<div class="modal-backdrop" id="contactModal" role="dialog" aria-modal="true" aria-labelledby="contactTitle">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="contactTitle"><i class="far fa-envelope"></i> Contact support</h2>
+      <button class="modal-close" onclick="closeContact()" aria-label="Close">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>Fill in the form and click <strong>Send email</strong>. Your mail client will open a pre-filled message to our support inbox.</p>
+
+      <div class="contact-email-line">
+        <i class="fas fa-at"></i> support@dotcomai.site
+      </div>
+
+      <form id="contactForm" onsubmit="submitContact(event)">
+        <div class="form-group">
+          <label for="cName">Your name</label>
+          <input type="text" id="cName" placeholder="Jane Doe" required>
+        </div>
+        <div class="form-group">
+          <label for="cEmail">Your email</label>
+          <input type="email" id="cEmail" placeholder="jane@example.com" required>
+        </div>
+        <div class="form-group">
+          <label for="cSubject">Subject</label>
+          <input type="text" id="cSubject" placeholder="Question about Dotcom EDI Harness" required>
+        </div>
+        <div class="form-group">
+          <label for="cMessage">Message</label>
+          <textarea id="cMessage" placeholder="Describe your issue or question…" required></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">
+            <i class="fas fa-paper-plane"></i> Send email
+          </button>
+          <button type="button" class="btn-ghost" onclick="closeContact()">
+            Cancel
+          </button>
+        </div>
+      </form>
+
+      <p class="modal-note">
+        Prefer your own client? Write to
+        <a href="mailto:support@dotcomai.site">support@dotcomai.site</a>.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+
+<script>
+/* ============ COPY BUTTONS ============ */
+(function() {
+  document.querySelectorAll('.codeblock .copy').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const text = btn.getAttribute('data-copy') || btn.parentElement.querySelector('pre').textContent;
+      copyText(text, btn);
+    });
+  });
+
+  function copyText(text, btn) {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(() => flash(btn)).catch(() => fallback(text, btn));
+    } else {
+      fallback(text, btn);
+    }
+  }
+  function fallback(text, btn) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); flash(btn); } catch(e){}
+    document.body.removeChild(ta);
+  }
+  function flash(btn) {
+    const orig = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-check"></i> Copied';
+    btn.style.color = '#00e676';
+    btn.style.borderColor = 'rgba(0,200,83,0.4)';
+    setTimeout(() => {
+      btn.innerHTML = orig;
+      btn.style.color = '';
+      btn.style.borderColor = '';
+    }, 1500);
+  }
+})();
+</script>
+
+<script>
+/* ============ SCROLLSPY ============ */
+(function() {
+  const headings = Array.from(document.querySelectorAll('.content h1[id], .content h2[id]'));
+  const railLinks = document.querySelectorAll('.rail a');
+  const sideLinks = document.querySelectorAll('.side-section a[href^="#"]');
+  if (!headings.length) return;
+
+  const offset = 110;
+
+  function update() {
+    const y = window.scrollY + offset;
+    let current = headings[0].id;
+    for (const h of headings) {
+      if (h.offsetTop <= y) current = h.id;
+    }
+    railLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+    sideLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+    const guideLink = document.querySelector('.topnav-links a[href="#top"]');
+    if (guideLink) guideLink.classList.toggle('active', current === 'top');
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
+</script>
+
+<script>
+/* ============ MOBILE SIDEBAR + TOPNAV MENU ============ */
+(function() {
+  const toggle = document.getElementById('menuToggle');
+  const sidebar = document.getElementById('sidebar');
+  const backdrop = document.getElementById('sidebarBackdrop');
+  const topnavLinks = document.getElementById('topnavLinks');
+
+  function isMobile() { return window.innerWidth <= 900; }
+
+  function openSidebar() {
+    sidebar.classList.add('open');
+    backdrop.classList.add('open');
+    toggle.innerHTML = '<i class="fas fa-times"></i>';
+    toggle.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('no-scroll');
+  }
+  function closeSidebar() {
+    sidebar.classList.remove('open');
+    backdrop.classList.remove('open');
+    toggle.innerHTML = '<i class="fas fa-bars"></i>';
+    toggle.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('no-scroll');
+  }
+
+  toggle.addEventListener('click', () => {
+    sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+  });
+  backdrop.addEventListener('click', closeSidebar);
+
+  sidebar.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('click', () => {
+      if (isMobile()) closeSidebar();
+    });
+  });
+
+  window.addEventListener('resize', () => {
+    if (!isMobile()) closeSidebar();
+  });
+
+  // Close sidebar on Esc
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && sidebar.classList.contains('open')) closeSidebar();
+  });
+})();
+</script>
+
+<script>
+/* ============ SEARCH (Ctrl/Cmd + K) ============ */
+(function() {
+  const input = document.getElementById('searchInput');
+  if (!input) return;
+
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      input.focus();
+      input.select();
+    }
+  });
+
+  input.addEventListener('input', () => {
+    const q = input.value.trim().toLowerCase();
+    document.querySelectorAll('.content h2').forEach(h => {
+      h.style.transition = 'background 0.2s';
+      h.style.background = 'transparent';
+    });
+    if (!q) return;
+    document.querySelectorAll('.content h2').forEach(h => {
+      if (h.textContent.toLowerCase().includes(q)) {
+        h.style.background = 'rgba(0,200,83,0.12)';
+        h.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
+  });
+})();
+</script>
+
+<script>
+/* ============ CONTACT MODAL ============ */
+function openContact() {
+  const m = document.getElementById('contactModal');
+  m.classList.add('open');
+  document.body.classList.add('no-scroll');
+  setTimeout(() => {
+    const first = document.getElementById('cName');
+    if (first) first.focus();
+  }, 80);
+}
+
+function closeContact() {
+  const m = document.getElementById('contactModal');
+  m.classList.remove('open');
+  document.body.classList.remove('no-scroll');
+}
+
+/* Close on backdrop click */
+document.getElementById('contactModal').addEventListener('click', (e) => {
+  if (e.target.id === 'contactModal') closeContact();
+});
+
+/* Close on Esc */
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && document.getElementById('contactModal').classList.contains('open')) {
+    closeContact();
+  }
+});
+
+/* Submit → mailto:support@dotcomai.site */
+function submitContact(e) {
+  e.preventDefault();
+
+  const name    = document.getElementById('cName').value.trim();
+  const email   = document.getElementById('cEmail').value.trim();
+  const subject = document.getElementById('cSubject').value.trim();
+  const message = document.getElementById('cMessage').value.trim();
+
+  const fullSubject = `[dotcomAI Docs] ${subject}`;
+  const body =
+    `Name: ${name}\n` +
+    `Email: ${email}\n\n` +
+    `Message:\n${message}\n\n` +
+    `— Sent from dotcomAI Docs`;
+
+  const mailto = `mailto:support@dotcomai.site` +
+    `?subject=${encodeURIComponent(fullSubject)}` +
+    `&body=${encodeURIComponent(body)}`;
+
+  window.location.href = mailto;
+
+  // Small feedback then close
+  setTimeout(() => {
+    closeContact();
+    document.getElementById('contactForm').reset();
+  }, 400);
+}
+</script>
+
+</body>
+</html>
