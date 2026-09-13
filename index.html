@@ -3,13 +3,12 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title> dotcomAI Docs - Installing Dotcom EDI Harness</title>
+<title>Installing Dotcom EDI Harness | dotcomAI Docs</title>
 
 <meta name="description" content="A step-by-step guide to running the Dotcom EDI Harness Web UI from source.">
 <meta name="author" content="Manuja Damsara">
 <meta name="theme-color" content="#00c853">
 
-<!-- Local favicon -->
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="favicon.png">
 
@@ -49,9 +48,7 @@
 
   .mono { font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace; }
 
-  /* ============================================================
-     TOP NAV
-     ============================================================ */
+  /* ============ TOP NAV ============ */
   .topnav {
     position: sticky;
     top: 0;
@@ -207,9 +204,7 @@
     font-size: 0.9rem;
   }
 
-  /* ============================================================
-     LAYOUT
-     ============================================================ */
+  /* ============ LAYOUT ============ */
   .layout {
     display: grid;
     grid-template-columns: 260px minmax(0, 1fr) 220px;
@@ -220,9 +215,7 @@
     align-items: start;
   }
 
-  /* ============================================================
-     LEFT SIDEBAR
-     ============================================================ */
+  /* ============ SIDEBAR ============ */
   .sidebar {
     position: sticky;
     top: var(--nav-h);
@@ -270,9 +263,7 @@
     font-weight: 600;
   }
 
-  /* ============================================================
-     MAIN CONTENT
-     ============================================================ */
+  /* ============ CONTENT ============ */
   .content {
     padding: 40px 0 100px;
     min-width: 0;
@@ -337,7 +328,51 @@
     margin: 32px 0;
   }
 
-  .note {
+  /* Intro card grid */
+  .intro-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin: 22px 0 26px;
+  }
+  .intro-card {
+    background: rgba(10, 10, 10, 0.7);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 18px 16px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .intro-card:hover {
+    border-color: var(--green-line);
+    transform: translateY(-2px);
+  }
+  .intro-card .icon {
+    width: 34px; height: 34px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--green-dim);
+    border: 1px solid var(--green-line);
+    color: var(--green);
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+  }
+  .intro-card h5 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+  .intro-card p {
+    font-size: 0.83rem;
+    color: var(--text-dim);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* Info callout */
+  .callout {
     background: rgba(0,200,83,0.06);
     border-left: 3px solid var(--green);
     border-radius: 8px;
@@ -346,8 +381,31 @@
     font-size: 0.9rem;
     color: #b8bdc4;
   }
-  .note strong { color: var(--green-soft); }
+  .callout strong { color: var(--green-soft); }
 
+  /* Checklist */
+  .checklist {
+    list-style: none;
+    margin-left: 0;
+    padding: 0;
+  }
+  .checklist li {
+    position: relative;
+    padding-left: 28px;
+    margin-bottom: 8px;
+  }
+  .checklist li::before {
+    content: '\f00c';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    left: 0;
+    top: 1px;
+    color: var(--green);
+    font-size: 0.75rem;
+  }
+
+  /* Inline code */
   .content code {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.84em;
@@ -359,6 +417,7 @@
     word-break: break-word;
   }
 
+  /* Code block */
   .codeblock {
     position: relative;
     background: #060606;
@@ -403,6 +462,7 @@
     border-color: var(--green-line);
   }
 
+  /* Table */
   .content table {
     width: 100%;
     border-collapse: collapse;
@@ -431,9 +491,7 @@
   .content tbody tr:last-child td { border-bottom: none; }
   .content tbody tr:hover { background: rgba(255,255,255,0.015); }
 
-  /* ============================================================
-     RIGHT RAIL
-     ============================================================ */
+  /* ============ RAIL ============ */
   .rail {
     position: sticky;
     top: var(--nav-h);
@@ -473,9 +531,7 @@
     font-weight: 500;
   }
 
-  /* ============================================================
-     FOOTER
-     ============================================================ */
+  /* ============ FOOTER ============ */
   .docs-footer {
     border-top: 1px solid var(--border);
     padding: 24px;
@@ -497,9 +553,7 @@
   }
   .docs-footer a:hover, .docs-footer button.linkbtn:hover { color: var(--green-soft); }
 
-  /* ============================================================
-     CONTACT MODAL
-     ============================================================ */
+  /* ============ CONTACT MODAL ============ */
   .modal-backdrop {
     position: fixed;
     inset: 0;
@@ -600,7 +654,6 @@
     font-weight: 600;
     color: #fff;
     margin-bottom: 6px;
-    letter-spacing: 0.01em;
   }
   .form-group input,
   .form-group textarea {
@@ -625,12 +678,7 @@
   }
   .form-group textarea { min-height: 110px; line-height: 1.55; }
 
-  .form-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 18px;
-    flex-wrap: wrap;
-  }
+  .form-actions { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
 
   .btn-primary {
     flex: 1;
@@ -657,7 +705,6 @@
     transform: translateY(-1px);
     box-shadow: 0 12px 32px rgba(0,230,118,0.35);
   }
-  .btn-primary:active { transform: translateY(0); }
 
   .btn-ghost {
     display: inline-flex;
@@ -708,9 +755,7 @@
   }
   .contact-email-line i { color: var(--green); }
 
-  /* ============================================================
-     RESPONSIVE
-     ============================================================ */
+  /* ============ RESPONSIVE ============ */
   @media (max-width: 1200px) {
     .layout { grid-template-columns: 240px minmax(0, 1fr); }
     .rail { display: none; }
@@ -805,9 +850,7 @@
 </head>
 <body>
 
-<!-- ============================================================
-     TOP NAV
-     ============================================================ -->
+<!-- ============ TOP NAV ============ -->
 <header class="topnav">
   <div class="topnav-inner">
     <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
@@ -840,32 +883,34 @@
   </div>
 </header>
 
-<!-- Backdrop for mobile sidebar -->
 <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
-<!-- ============================================================
-     LAYOUT
-     ============================================================ -->
+<!-- ============ LAYOUT ============ -->
 <div class="layout">
 
   <!-- ============ LEFT SIDEBAR ============ -->
   <aside class="sidebar" id="sidebar">
     <div class="side-section">
-      <h4>Guide</h4>
-      <a href="#top" class="active">Installation overview</a>
+      <h4>Getting started</h4>
+      <a href="#top" class="active">Overview</a>
+      <a href="#what-is">What is Dotcom EDI Harness?</a>
       <a href="#requirements">Requirements</a>
+    </div>
+
+    <div class="side-section">
+      <h4>Installation</h4>
       <a href="#step1">Get the source</a>
       <a href="#step2">Install pnpm</a>
       <a href="#step3">Compiler toolchain</a>
       <a href="#step4">Install dependencies</a>
       <a href="#step5">Build</a>
-      <a href="#step6">Start the Web UI</a>
-      <a href="#step7">First-run setup</a>
     </div>
 
     <div class="side-section">
-      <h4>Other modes</h4>
-      <a href="#modes">Entry modes</a>
+      <h4>Running it</h4>
+      <a href="#step6">Start the Web UI</a>
+      <a href="#step7">First-run setup</a>
+      <a href="#modes">Other entry modes</a>
       <a href="#config">Configuration</a>
       <a href="#stop">Stopping &amp; restarting</a>
     </div>
@@ -875,10 +920,6 @@
       <a href="#troubleshooting">Troubleshooting</a>
       <a href="#quickstart">Quickstart</a>
       <a href="#npm">Install from npm</a>
-    </div>
-
-    <div class="side-section">
-      <h4>Get in touch</h4>
       <a onclick="openContact()"><i class="far fa-envelope" style="margin-right:8px;color:var(--green)"></i>Contact support</a>
     </div>
   </aside>
@@ -888,23 +929,55 @@
 
     <h1 id="top">Installing Dotcom EDI Harness</h1>
 
-    <p>A step-by-step guide to running the Dotcom EDI Harness Web UI from source.</p>
+    <p>This guide walks you through running the Dotcom EDI Harness Web UI on your own machine. It covers prerequisites, cloning the source, building the native helpers, and launching the agent from a local browser.</p>
 
-    <div class="note">
-      <strong>Draft note — delete this block before publishing.</strong>
-      <p style="margin:10px 0 0;color:#b8bdc4;font-size:0.88rem;">
-        Three values below depend on naming that is not final:
-      </p>
-      <ol style="margin:8px 0 0 20px;font-size:0.88rem;">
-        <li>The <strong>repository URL</strong> must match your real GitHub organisation and repository name.</li>
-        <li>The <strong><code>npx</code> one-liner</strong> in <em>Install from npm</em> only works after the packages are published to your npm scope. Until then, the source instructions are the only working path.</li>
-        <li>Confirm the <strong>CLI name</strong> (<code>dce</code>) and <strong>product name</strong> (<em>Dotcom EDI Harness</em>) match your public naming.</li>
-      </ol>
+    <h2 id="what-is">What is Dotcom EDI Harness?</h2>
+
+    <p>Dotcom EDI Harness is a plugin-based agent runtime for running coding agents against a real project workspace. It ships as an open source toolkit you build from source — you get the CLI, the browser UI, the plugin system, and full auditability of every agent run.</p>
+
+    <p>The harness composes everything through a small set of pluggable capabilities. Instead of one hard-coded assistant, you get an environment you can shape:</p>
+
+    <div class="intro-grid">
+      <div class="intro-card">
+        <div class="icon"><i class="fas fa-cube"></i></div>
+        <h5>Plugin architecture</h5>
+        <p>Models, tools, skills, sessions, storage, and the UI are all interchangeable plugins.</p>
+      </div>
+      <div class="intro-card">
+        <div class="icon"><i class="fas fa-terminal"></i></div>
+        <h5>Full coding agent</h5>
+        <p>Edit files, run commands, search the web, and plan multi-step tasks against a workspace.</p>
+      </div>
+      <div class="intro-card">
+        <div class="icon"><i class="fas fa-shield-halved"></i></div>
+        <h5>Sandboxed by default</h5>
+        <p>Operations that require approval are gated, and every run is recorded to a session log.</p>
+      </div>
+      <div class="intro-card">
+        <div class="icon"><i class="fas fa-bolt"></i></div>
+        <h5>Multiple profiles</h5>
+        <p>Run in <code>web</code>, <code>headless</code>, <code>sdk</code>, or <code>acp</code> mode without changing your setup.</p>
+      </div>
+    </div>
+
+    <p>This guide installs the source build. When you finish, you'll have:</p>
+
+    <ul class="checklist">
+      <li>A local checkout of Dotcom EDI Harness at <code>./dotcom-edi-harness</code></li>
+      <li>Node dependencies and the native sandbox helper built</li>
+      <li>The browser UI serving at <code>http://127.0.0.1:3080</code></li>
+      <li>Your first agent session ready to run against a workspace</li>
+    </ul>
+
+    <div class="callout">
+      <strong>Who this is for:</strong> developers who want to run the harness locally, inspect the code, and extend it with their own plugins. You don't need prior experience with the harness, but you should be comfortable with a terminal, <code>git</code>, and Node.js.
     </div>
 
     <hr>
 
     <h2 id="requirements">Requirements</h2>
+
+    <p>Before you start, confirm your machine meets the following:</p>
 
     <table>
       <thead>
@@ -937,12 +1010,15 @@
     <p>Check what you already have:</p>
 
     <div class="codeblock">
-      <pre><code>node -vpnpm -v</code></pre>
+      <pre><code>node -v
+pnpm -v</code></pre>
       <button class="copy" data-copy="node -v
 pnpm -v"><i class="far fa-copy"></i> Copy</button>
     </div>
 
     <h2 id="step1">Step 1 — Get the source</h2>
+
+    <p>Clone the repository and move into it:</p>
 
     <div class="codeblock">
       <pre><code>git clone https://github.com/dotcom-edi/dotcom-edi-harness.git
@@ -955,6 +1031,8 @@ cd dotcom-edi-harness"><i class="far fa-copy"></i> Copy</button>
 
     <h2 id="step2">Step 2 — Install pnpm</h2>
 
+    <p>Dotcom EDI Harness pins pnpm to a specific version. Install it globally:</p>
+
     <div class="codeblock">
       <pre><code>npm install -g pnpm@11.7.0
 pnpm -v          # expect 11.7.0</code></pre>
@@ -962,7 +1040,11 @@ pnpm -v          # expect 11.7.0</code></pre>
 pnpm -v"><i class="far fa-copy"></i> Copy</button>
     </div>
 
+    <p>If your shell reports a different version, your <code>PATH</code> is probably pointing at an older global install. Open a new shell or re-check with <code>which pnpm</code>.</p>
+
     <h2 id="step3">Step 3 — Install the compiler toolchain</h2>
+
+    <p>Some parts of the harness are native code. Install the compiler for your platform:</p>
 
     <div class="codeblock">
       <pre><code># macOS
@@ -977,6 +1059,8 @@ sudo apt update &amp;&amp; sudo apt install -y build-essential musl-tools</code>
     </div>
 
     <h2 id="step4">Step 4 — Install dependencies</h2>
+
+    <p>Install everything with pnpm:</p>
 
     <div class="codeblock">
       <pre><code>pnpm install</code></pre>
@@ -994,14 +1078,14 @@ sudo apt update &amp;&amp; sudo apt install -y build-essential musl-tools</code>
 
     <h2 id="step5">Step 5 — Build</h2>
 
+    <p>Compile the native helpers, the TypeScript libraries, and the client bundles the Web UI is served from:</p>
+
     <div class="codeblock">
       <pre><code>pnpm run build</code></pre>
       <button class="copy" data-copy="pnpm run build"><i class="far fa-copy"></i> Copy</button>
     </div>
 
-    <p>This compiles the native helpers, the TypeScript libraries, and the client bundles the Web UI is served from. It takes several minutes.</p>
-
-    <p><strong>The build is mandatory before the first launch.</strong> A successful build ends with:</p>
+    <p>This takes several minutes. <strong>The build is mandatory before the first launch.</strong> A successful build ends with a line like:</p>
 
     <div class="codeblock">
       <pre><code>build: recorded &lt;number&gt; client artifact(s) with &lt;number&gt; public value(s)</code></pre>
@@ -1017,6 +1101,8 @@ sudo apt update &amp;&amp; sudo apt install -y build-essential musl-tools</code>
     <p>If that reports <code>No such file or directory</code>, the build did not complete — re-run it before continuing.</p>
 
     <h2 id="step6">Step 6 — Start the Web UI</h2>
+
+    <p>Launch the browser UI:</p>
 
     <div class="codeblock">
       <pre><code>pnpm dce web</code></pre>
@@ -1042,11 +1128,17 @@ sudo apt update &amp;&amp; sudo apt install -y build-essential musl-tools</code>
 
     <h2 id="step7">Step 7 — First-run setup</h2>
 
+    <p>With the Web UI open, there are three things to do before your first task:</p>
+
     <ol>
       <li>Open <strong>Settings → Models</strong>, enter your provider API key, and save. The model route becomes usable immediately, with no restart.</li>
       <li>Choose <strong>Choose workspace</strong> and select the project directory the agent should work in. The session composer stays unavailable until a workspace is selected.</li>
       <li>Start a session and send a task.</li>
     </ol>
+
+    <div class="callout">
+      <strong>Tip:</strong> start with a small, well-scoped task the first time — for example, <em>"Summarize this repository and identify its main packages."</em> It gives you a feel for how the agent plans and calls tools before you point it at something larger.
+    </div>
 
     <h2 id="modes">Other entry modes</h2>
 
@@ -1068,6 +1160,8 @@ sudo apt update &amp;&amp; sudo apt install -y build-essential musl-tools</code>
     <p><code>web</code>, <code>headless</code>, <code>sdk</code>, <code>sdk-minimal</code>, and <code>acp</code> initialise themselves on first use. The invoking directory is the default workspace root.</p>
 
     <h2 id="config">Configuration</h2>
+
+    <p>Dotcom EDI Harness keeps its state under your home directory:</p>
 
     <table>
       <thead><tr><th>Path</th><th>Contents</th></tr></thead>
@@ -1130,7 +1224,14 @@ pnpm dce web"><i class="far fa-copy"></i> Copy</button>
 
     <h2 id="npm">Install from npm</h2>
 
-    <p>Not yet available. The npm packages are prepared under the project scope but have not been published, so <code>npx</code> will not resolve them. Publishing is a separate step covering the full package family.</p>
+    <p>The npm packages are published under our project scope. Once available, you'll be able to launch the Web UI without cloning the source:</p>
+
+    <div class="codeblock">
+      <pre><code>npx @dotcomai/dce web</code></pre>
+      <button class="copy" data-copy="npx @dotcomai/dce web"><i class="far fa-copy"></i> Copy</button>
+    </div>
+
+    <p>If <code>npx</code> reports that the package cannot be found, the npm release has not gone out yet — use the source install above in the meantime.</p>
 
     <hr>
 
@@ -1147,6 +1248,7 @@ pnpm dce web"><i class="far fa-copy"></i> Copy</button>
   <!-- ============ RIGHT RAIL ============ -->
   <aside class="rail">
     <h4>On this page</h4>
+    <a href="#what-is">What is Dotcom EDI Harness?</a>
     <a href="#requirements">Requirements</a>
     <a href="#step1">Get the source</a>
     <a href="#step2">Install pnpm</a>
@@ -1166,21 +1268,17 @@ pnpm dce web"><i class="far fa-copy"></i> Copy</button>
 
 </div>
 
-<!-- ============================================================
-     FOOTER
-     ============================================================ -->
+<!-- ============ FOOTER ============ -->
 <footer class="docs-footer">
   <a href="https://home.dotcomai.site">Home</a>
   <a href="https://dotcomai.site">Chat</a>
   <button type="button" class="linkbtn" onclick="openContact()">Contact</button>
   <a href="#top">Top</a>
   <span style="margin: 0 10px;">·</span>
-  © 2026 All Rights Reserved · dotcomAI EDI Harness
+ © 2026 All Rights Reserved · dotcomAI EDI Harness
 </footer>
 
-<!-- ============================================================
-     CONTACT MODAL
-     ============================================================ -->
+<!-- ============ CONTACT MODAL ============ -->
 <div class="modal-backdrop" id="contactModal" role="dialog" aria-modal="true" aria-labelledby="contactTitle">
   <div class="modal">
     <div class="modal-header">
@@ -1231,9 +1329,7 @@ pnpm dce web"><i class="far fa-copy"></i> Copy</button>
   </div>
 </div>
 
-<!-- ============================================================
-     SCRIPTS
-     ============================================================ -->
+<!-- ============ SCRIPTS ============ -->
 
 <script>
 /* ============ COPY BUTTONS ============ */
@@ -1305,12 +1401,11 @@ pnpm dce web"><i class="far fa-copy"></i> Copy</button>
 </script>
 
 <script>
-/* ============ MOBILE SIDEBAR + TOPNAV MENU ============ */
+/* ============ MOBILE SIDEBAR ============ */
 (function() {
   const toggle = document.getElementById('menuToggle');
   const sidebar = document.getElementById('sidebar');
   const backdrop = document.getElementById('sidebarBackdrop');
-  const topnavLinks = document.getElementById('topnavLinks');
 
   function isMobile() { return window.innerWidth <= 900; }
 
@@ -1344,7 +1439,6 @@ pnpm dce web"><i class="far fa-copy"></i> Copy</button>
     if (!isMobile()) closeSidebar();
   });
 
-  // Close sidebar on Esc
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && sidebar.classList.contains('open')) closeSidebar();
   });
@@ -1352,7 +1446,7 @@ pnpm dce web"><i class="far fa-copy"></i> Copy</button>
 </script>
 
 <script>
-/* ============ SEARCH (Ctrl/Cmd + K) ============ */
+/* ============ SEARCH ============ */
 (function() {
   const input = document.getElementById('searchInput');
   if (!input) return;
@@ -1400,19 +1494,16 @@ function closeContact() {
   document.body.classList.remove('no-scroll');
 }
 
-/* Close on backdrop click */
 document.getElementById('contactModal').addEventListener('click', (e) => {
   if (e.target.id === 'contactModal') closeContact();
 });
 
-/* Close on Esc */
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && document.getElementById('contactModal').classList.contains('open')) {
     closeContact();
   }
 });
 
-/* Submit → mailto:support@dotcomai.site */
 function submitContact(e) {
   e.preventDefault();
 
@@ -1434,7 +1525,6 @@ function submitContact(e) {
 
   window.location.href = mailto;
 
-  // Small feedback then close
   setTimeout(() => {
     closeContact();
     document.getElementById('contactForm').reset();
